@@ -1,9 +1,16 @@
 ---
+- job:
+    name: disa-docs-build
+    description: Build the disa docs
+    run: playbooks/docbuild.yaml
+    success-url: 'docs-html/index.html'
 - project:
     name: disa/disa-docs
     check:
       jobs:
         - linters
+        - disa-docs-build
     gate:
       jobs:
         - linters
+        - disa-docs-build
