@@ -1,0 +1,9 @@
+---
+- project:
+    name: disa/disa-docs
+    check:
+      jobs:
+        - linters
+    gate:
+      jobs:
+        - linters
