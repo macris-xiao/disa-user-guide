@@ -11,6 +11,7 @@ Agilio OVS with TC Offload Userguide
    :caption: Contents:
 
    01_Architecture
+   02_Hardware_installation
 
 
 Indices and tables
