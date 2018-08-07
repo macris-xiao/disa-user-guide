@@ -10,6 +10,7 @@ Welcome to disa's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   01_Architecture
 
 
 Indices and tables
