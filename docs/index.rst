@@ -13,6 +13,7 @@ Agilio OVS with TC Offload Userguide
    01_Architecture
    02_Hardware_installation
    03_Driver_and_Firmware
+   04_Install_openvswitch
 
 
 Indices and tables
