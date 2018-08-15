@@ -97,6 +97,15 @@ Enable Open vSwitch so that it will run on reboot:
 
 .. code:: bash
 
+    $ systemctl enable openvswitch
+
+Ubuntu 18.04 LTS
+````````````````
+
+Start Open vSwitch:
+
+.. code:: bash
+
     $ systemctl start openvswitch-switch
 
 Check status of Open vSwitch:
