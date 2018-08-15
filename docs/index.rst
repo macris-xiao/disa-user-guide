@@ -18,6 +18,7 @@ Agilio OVS with TC Offload Userguide
    06_Basic_firmware_features
    07_Using_openvswitch
    0A_Netronome_Repositories
+   0B_RHEL_Repositories
 
 Indices and tables
 ==================
