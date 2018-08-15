@@ -17,6 +17,7 @@ Agilio OVS with TC Offload Userguide
    05_Using_linux_driver
    06_Basic_firmware_features
    07_Using_openvswitch
+   0A_Netronome_Repositories
 
 Indices and tables
 ==================
