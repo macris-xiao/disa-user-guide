@@ -24,6 +24,7 @@ Agilio OVS with TC Offload Userguide
    0E_Updating_Flash
    0F_Updating_kernel
    0G_Updating_kernel_boot
+   0H_Upgrade_firmware
 
 Indices and tables
 ==================
