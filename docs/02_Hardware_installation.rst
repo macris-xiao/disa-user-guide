@@ -16,7 +16,8 @@ Identification
 In a running system the assembly ID and serial number of a PCI device may be
 determined using the ethtool debug interface. This requires knowledge of the
 physical function network device identifier, or <netdev>, assigned to the
-SmartNIC under consideration. Consult the section SmartNIC Netdev Interfaces
+SmartNIC under consideration. Consult the section
+:ref:`03_Driver_and_Firmware:SmartNIC Netdev Interfaces`
 for methods on determining this identifier. The interface name <netdev> can be
 otherwise identified using the ip link command. The following shell snippet
 illustrates this method for some particular netdev whose name is cast as the

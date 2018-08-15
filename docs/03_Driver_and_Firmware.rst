@@ -126,7 +126,9 @@ This search is logged by the kernel when the driver is loaded. For example:
     [  3.262138] nfp 0000:04:00.0: nfp:   netronome/nic_AMDA0097-0001_2x40.nffw: found, loading...
 
 The version of the loaded firmware for a particular <netdev> interface, as
-found in SmartNIC Netdev Interfaces (for example enp4s0), or an interface’s
+found in
+:ref:`03_Driver_and_Firmware:SmartNIC Netdev Interfaces`
+(for example enp4s0), or an interface’s
 port <netdev port> (eg enp4s0np0) can be displayed with the ethtool command
 
 .. code:: bash
@@ -153,7 +155,9 @@ in the netronome/flower directory in lib/firmware.
 
 Creation and persistence of a symbolic link between the OVS-TC firmware to the
 SmartNIC associated PCI address is automated with the subsequent script.
-Review SmartNIC Netdev Interfaces to identify the SmartNIC’s netdev. The script
+Review
+:ref:`03_Driver_and_Firmware:SmartNIC Netdev Interfaces`
+to identify the SmartNIC’s netdev. The script
 in Hardware Installation: Identification details how to identify the SmartNIC’s
 assembly, however, it is recommended to run the following script with the scan
 parameter which queries the device’s assembly through the debug interface.

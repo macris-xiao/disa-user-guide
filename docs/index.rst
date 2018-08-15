@@ -16,6 +16,7 @@ Agilio OVS with TC Offload Userguide
    04_Install_openvswitch
    05_Using_linux_driver
    06_Basic_firmware_features
+   07_Using_openvswitch
 
 Indices and tables
 ==================
