@@ -23,6 +23,7 @@ Agilio OVS with TC Offload Userguide
    0D_Working_with_BSP
    0E_Updating_Flash
    0F_Updating_kernel
+   0G_Updating_kernel_boot
 
 Indices and tables
 ==================
