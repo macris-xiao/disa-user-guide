@@ -20,6 +20,7 @@ Agilio OVS with TC Offload Userguide
    0A_Netronome_Repositories
    0B_RHEL_Repositories
    0C_Install_oot_nfp_driver
+   0D_Working_with_BSP
 
 Indices and tables
 ==================
