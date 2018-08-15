@@ -22,6 +22,7 @@ Agilio OVS with TC Offload Userguide
    0C_Install_oot_nfp_driver
    0D_Working_with_BSP
    0E_Updating_Flash
+   0F_Updating_kernel
 
 Indices and tables
 ==================
