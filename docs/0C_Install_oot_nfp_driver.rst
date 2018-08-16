@@ -111,6 +111,17 @@ The dkms module is usually located at the following path:
 
     /lib/modules/$(uname -r)/updates/dkms/nfp.ko
 
+To ensure that the out-of-tree driver is correctly loaded instead of the
+in-tree module, the following commands can be run:
+
+.. code:: bash
+
+    mkdir -p /etc/depmod.d
+    echo "override nfp * extra" > /etc/depmod.d/netronome.conf
+    depmod -a
+    modprobe -r nfp; modprobe nfp
+    update-initramfs -u
+
 Building from Source
 --------------------
 
