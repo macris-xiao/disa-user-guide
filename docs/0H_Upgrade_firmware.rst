@@ -1,3 +1,5 @@
+.. highlight:: console
+
 Appendix H: Upgrading TC Firmware
 =================================
 
@@ -8,8 +10,8 @@ in GA releases of distributions. As a guide they are as follows:
 ============ ===============================
 Operating    System Firmware package version
 ============ ===============================
-RHEL 7.5     20180220-62.git6d51311.el7
-Ubuntu 18.04 1.173
+RHEL 7.5     ``20180220-62.git6d51311.el7``
+Ubuntu 18.04 ``1.173``
 ============ ===============================
 
 Netronome provides firmware packages with newer features as out-of-tree
@@ -25,17 +27,13 @@ Repositories` on how to configure the Netronome repository applicable to your
 distribution. When the repository has been successfully added install the
 *agilio-flower-app-firmware* package using the commands below.
 
-In RHEL/Centos 7.5:
+In RHEL/CentOS 7.5::
 
-.. code:: bash
+    # yum install agilio-flower-app-firmware
 
-    $ yum install agilio-flower-app-firmware --nogpgcheck
+In Ubuntu 18.04 LTS::
 
-In Ubuntu 18.04 LTS
-
-.. code:: bash
-
-    $ apt-get install agilio-flower-app-firmware
+    # apt-get install agilio-flower-app-firmware
 
 Installing Updated TC Firmware from Package Installations
 ---------------------------------------------------------
@@ -44,17 +42,13 @@ The latest firmware can be obtained at the downloads area of the Netronome
 Support site (https://help.netronome.com). Install the packages provided by
 Netronome Support using the commands below.
 
-In RHEL/Centos 7.5:
+In RHEL/CentOS 7.5::
 
-.. code:: bash
+    # yum install -y agilio-flower-app-firmware-*.rpm
 
-    $ yum install -y agilio-flower-app-firmware-*.rpm
+In Ubuntu 18.04 LTS::
 
-In Ubuntu 18.04 LTS
-
-.. code:: bash
-
-    $ dpkg -i agilio-flower-app-firmware-*.deb
+    # dpkg -i agilio-flower-app-firmware-*.deb
 
 Select Updated TC Firmware
 --------------------------
@@ -62,30 +56,22 @@ Select Updated TC Firmware
 Once installed the updated TC firmware should be selected using the script
 described in section :ref:`03_Driver_and_Firmware:Selecting the TC Offload
 Firmware`. To select the updated TC firmware it should be called with
-*flower-next* as its last parameter.
+*flower-next* as its last parameter::
 
-.. code:: bash
+    # ./agilio-tc-fw-select.sh p5p1 scan flower-next
 
-    $ ./agilio-tc-fw-select.sh p5p1 scan flower-next
+Once selected the driver should be reloaded to use the new firmware::
 
-Once selected the driver should be reloaded to use the new firmware.
+    # rmmod nfp; modprobe nfp
 
-.. code:: bash
+The initramfs image should also be update to ensure the correct firmware
+version is loaded at boot time.
 
-    $ rmmod nfp; modprobe nfp
+In RHEL/CentOS 7.5 this is done using::
 
-The initram image should also be update to ensure the correct firmware version
-is loaded at boot time.
+    # dracut -f
 
-In RHEL/Centos 7.5 this is done using:
+In Ubuntu 18.04 LTS use the command::
 
-.. code:: bash
-
-    $ dracut -f
-
-In Ubuntu 18.04 LTS use the command:
-
-.. code:: bash
-
-    $ update-initramfs -u
+    # update-initramfs -u
 

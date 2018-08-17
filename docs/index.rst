@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Agilio OVS with TC Offload Userguide
-====================================
+Agilio OVS with TC Offload User's Guide
+=======================================
 
 .. toctree::
    :maxdepth: 2
@@ -27,10 +27,3 @@ Agilio OVS with TC Offload Userguide
    0H_Upgrade_firmware
    0I_Offloadable_flows
    XX_contact_us
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

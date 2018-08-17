@@ -1,3 +1,5 @@
+.. highlight:: console
+
 Basic Firmware Features
 =======================
 
@@ -7,12 +9,11 @@ interface parameters.
 View Interface Parameters
 -------------------------
 
-The *-k* flag can be used to view current interface configurations, for example
-using a Agilio CX 1x40GbE NIC which has an interface id ``enp4s0np0``:
+The ``-k`` flag can be used to view current interface configurations. For
+example, using a Agilio CX 1x40GbE NIC with a physical port representor
+``enp4s0np0``::
 
-.. code:: bash
-
-    $ ethtool -k <netdev>
+    # ethtool -k enp4s0np0
     Features for enp4s0np0:
     rx-checksumming: off [fixed]
     tx-checksumming: off
@@ -70,62 +71,59 @@ Setting Interface Settings
 
 Unless otherwise stated, changing the interface settings detailed below will
 not require reloading of the NFP drivers for changes to take effect, unlike the
-interface breakouts described in :ref:`05_Using_linux_driver:Configuring Interface
-Media Mode`. If the interface has more than one physical port, changes **must
-be** applied to the physical function *<netdev>* and those settings  will
-reflect on both ports.  Unlike the basic CoreNIC firmware, each physical port
-on the interface cannot be configured independently and attempting to do so
-will produce an error.
+interface breakouts described in :ref:`05_Using_linux_driver:Configuring
+Interface Media Mode`. If the interface has more than one physical port,
+changes **must be** applied to the physical function *netdev* and those
+settings will reflect on both ports. Unlike the basic CoreNIC firmware, each
+physical port on the interface cannot be configured independently and
+attempting to do so will produce an error. In this section, ``ens3`` will be
+used as an example of a physical function *netdev*.
 
-Receive Checksumming (rx-checksumming)
-``````````````````````````````````````
+Receive Checksum Offload
+````````````````````````
 
 When enabled, checksum calculation and error checking comparison for received
-packets is offloaded to the NFP SmartNIC’s flow processor rather than the host
+packets is offloaded to the NFP SmartNIC's flow processor rather than the host
 CPU.
 
-.. code:: bash
+To enable receive checksum offload::
 
-    # To enable rx-checksumming
-    $ ethtool -K <netdev> rx on
+    # ethtool -K ens3 rx on
 
-    # To disable rx-checksumming
-    $ ethtool -K <netdev> rx off
+To disable receive checksum offload::
 
-Transmit Checksumming (tx-checksumming)
-```````````````````````````````````````
+    # ethtool -K ens3 rx off
+
+Transmit Checksum Offload
+`````````````````````````
 
 When enabled, checksum calculation for outgoing packets is offloaded to the NFP
-SmartNIC’s flow processor rather than the host’s CPU.
+SmartNIC's flow processor rather than the host's CPU.
 
-.. code:: bash
+To enable transmit checksum offload::
 
-    # To enable tx-checksumming
-    $ ethtool -K <netdev> tx on
+    # ethtool -K ens3 tx on
 
-    # To disable tx-checksumming
-    $ ethtool -K <netdev> tx off
+To disable transmit checksum offload::
 
-Scatter and Gather (scatter-gather)
-```````````````````````````````````
+    # ethtool -K ens3 tx off
 
-When enabled the NFP will use scatter and gather I/O, also known as Vectored
+Scatter/Gather
+``````````````
+
+When enabled the NFP will use scatter/gather I/O, also known as Vectored
 I/O, which allows a single procedure call to sequentially read data from
 multiple buffers and write it to a single data stream. Only changes to the
-scatter-gather interface settings (from *on* to *off* or *off* to *on*) will
-produce a terminal output as shown below:
+scatter-gather interface settings (from ``on`` to ``off`` or ``off`` to ``on``)
+will produce a terminal output as shown below::
 
-.. code:: bash
-
-    # To enable scatter-gather
-    $ ethtool -K <netdev> sg on
+    # ethtool -K ens3 sg on
     Actual changes:
     scatter-gather: on
             tx-scatter-gather: on
     generic-segmentation-offload: on
 
-    # To disable scatter-gather
-    $ ethtool -K <netdev> sg off
+    # ethtool -K ens3 sg off
     Actual changes:
     scatter-gather: on
             tx-scatter-gather: on
@@ -137,13 +135,13 @@ TCP Segmentation Offload (TSO)
 When enabled, this parameter causes all functions related to the segmentation
 of TCP packets at egress to be offloaded to the NFP.
 
-.. code:: bash
+To enable TCP segmentation offload::
 
-    # To enable tcp-segmentation-offload
-    $ ethtool -K <netdev> tso on
+    # ethtool -K ens3 tso on
 
-    # To disable tcp-segmentation-offload
-    $ ethtool -K <netdev> tso off
+To disable TCP segmentation offload::
+
+    # ethtool -K ens3 tso off
 
 Generic Segmentation Offload (GSO)
 ``````````````````````````````````
@@ -152,13 +150,13 @@ This parameter offloads segmentation for transport layer protocol data units
 other than segments and datagrams for TCP/UDP respectively to the NFP. GSO
 operates at packet egress.
 
-.. code:: bash
+To enable generic segmentation offload::
 
-    # To enable generic-segmentation-offload
-    $ ethtool -K <netdev> gso on
+    # ethtool -K ens3 gso on
 
-    # To disable generic-segmentation-offload
-    $ ethtool -K <netdev> gso off
+To disable generic segmentation offload::
+
+    # ethtool -K ens3 gso off
 
 Generic Receive Offload (GRO)
 `````````````````````````````
@@ -167,14 +165,16 @@ This parameter enables software implementation of Large Receive Offload (LRO),
 which aggregates multiple packets at ingress into a large buffer before they
 are passed higher up the networking stack.
 
-.. code:: bash
+To enable generic receive offload::
 
-    # To enable generic-receive-offload
-    $ ethtool -K <netdev> gro on
+    # ethtool -K ens3 gro on
 
-    # To disable generic-receive-offload
-    $ ethtool -K <netdev> gro off
+To disable generic receive offload::
+
+    # ethtool -K ens3 gro off
 
 .. note::
 
-    Do take note that scripts that use ethtool -i <interface> to get bus-info will not work on representors as this information is not populated for representor devices.
+    Take note that scripts that use ``ethtool -i ${INTERFACE}`` to get
+    bus-info will not work on representors as this information is not populated
+    for representor devices.

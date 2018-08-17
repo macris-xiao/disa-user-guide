@@ -1,3 +1,5 @@
+.. highlight:: console
+
 Appendix D: Working with Board Support Package
 ==============================================
 
@@ -12,26 +14,26 @@ Repositories` on how to configure the Netronome repository applicable to your
 distribution. When the repository has been successfully added install the BSP
 package using the commands below.
 
-RHEL/Centos 7.5
+RHEL/CentOS 7.5
 ```````````````
 
-.. code:: bash
+.. code-block:: console
 
-    $ yum list available | grep nfp-bsp
+    # yum list available | grep nfp-bsp
     nfp-bsp-6000-b0.x86_64                   2017.12.05.1404-1          netronome
 
-    $ yum install nfp-bsp-6000-b0 --nogpgcheck
-    $ reboot
+    # yum install nfp-bsp-6000-b0 --nogpgcheck
+    # reboot
 
 Ubuntu 18.04 LTS
 ````````````````
 
-.. code:: bash
+.. code-block:: console
 
-    $ apt-cache search nfp-bsp
+    # apt-cache search nfp-bsp
     nfp-bsp-6000-b0 - Netronome NFP BSP
 
-    $ apt-get install nfp-bsp-6000-b0
+    # apt-get install nfp-bsp-6000-b0
 
 Install Software From deb/rpm Package
 -------------------------------------
@@ -39,12 +41,13 @@ Install Software From deb/rpm Package
 Obtain Software
 ```````````````
 
-The latest BSP packages can be obtained at the downloads area of the Netronome Support site (https://help.netronome.com).
+The latest BSP packages can be obtained at the downloads area of the Netronome
+Support site (https://help.netronome.com).
 
 Install the prerequisite dependencies
 `````````````````````````````````````
 
-RHEL/Centos 7.5 Dependencies
+RHEL/CentOS 7.5 Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 No dependency installation required
@@ -52,10 +55,9 @@ No dependency installation required
 Ubuntu 18.04 LTS Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+To install the BSP package dependencies on Ubuntu 18.04, run::
 
-    # BSP dependencies
-    $ apt-get install -y libjansson4
+    # apt-get install -y libjansson4
 
 NFP BSP Package
 ```````````````
@@ -65,16 +67,16 @@ Install the NFP BSP package provided by Netronome Support.
 RHEL 7.5 Install
 ~~~~~~~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: console
 
-    $ yum install -y nfp-bsp-6000-*.rpm --nogpgcheck
+    # yum install -y nfp-bsp-6000-*.rpm --nogpgcheck
 
 Ubuntu 18.04 LTS Install
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: console
 
-    $ dpkg -i nfp-bsp-6000-*.deb
+    # dpkg -i nfp-bsp-6000-*.deb
 
 Using BSP tools
 ---------------
@@ -85,17 +87,15 @@ Enable CPP access
 The NFP has an internal Command Push/Pull (CPP) bus that allows debug access to
 the SmartNIC internals. CPP access allows user space tools raw access to chip
 internals and is required to enable the use of most BSP tools. Only the
-*out-of-tree (o-o-t)* driver allows CPP access.
+*out-of-tree (oot)* driver allows CPP access.
 
 Follow the steps from :ref:`0C_Install_oot_nfp_driver:Install Driver via
-Netronome Repository` to install the o-o-t nfp driver. After the nfp module has
-been built load the driver with CPP access:
+Netronome Repository` to install the *oot* *nfp* driver. After the *nfp* module
+has been built load the driver with CPP access::
 
-.. code:: bash
-
-    $ depmod -a
-    $ rmmod nfp
-    $ modprobe nfp nfp_dev_cpp=1 nfp_pf_netdev=0
+    # depmod -a
+    # rmmod nfp
+    # modprobe nfp nfp_dev_cpp=1
 
 To persist this option across reboots, a number of options are available; the
 distribution specific documentation will detail that process more thoroughly.
@@ -113,40 +113,79 @@ commands. Note, a reboot is still required for changes to take effect.
 Agilio CX 2x25GbE - AMDA0099
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To set the port speed of the CX 2x25GbE the following commands can be used
+To set the port speed of the CX 2x25GbE the following commands can be used:
 
-.. code:: bash
+Set port 0 and port 1 to 10G mode::
 
-    # set port 0 and port 1 to 10G mode
-    $ nfp-media phy1=10G phy0=10G
-    # set port 1 to 25G mode
-    $ nfp-media phy1=25G+
+    # nfp-media phy1=10G phy0=10G
 
-To change the FEC settings of the 2x25GbE the following commands can be used
+Set port 1 to 25G mode::
 
-.. This still needs to be filled in
+    # nfp-media phy1=25G+
+
+To change the FEC settings of the 2x25GbE the following commands can be used::
+
+    # nfp-media --set-aneg=phy0=[S|A|I|C|F] --set-fec=phy0=[A|F|R|N]
+
+Where the parameters for each argument are:
+
+``--set-aneg=``:
+
+S
+    search - Search through supported modes until link is found.
+    Only one side should be doing this. It may result in a mode that
+    can have physical layer errors depending on SFP type and what the
+    other end wants. Long DAC cables with no FEC WILL have physical
+    layer errors.
+
+A
+    auto - Automatically choose mode based on speed and SFP type.
+
+C
+    consortium - Consortium 25G auto-negotiation with link training.
+
+I
+    IEEE - IEEE 10G or 25G auto-negotiation with link training.
+
+F
+    forced - Mode is forced with no auto-negotiation or link training.
+
+``--set-fec=``:
+
+A
+    auto - Automatically choose FEC based on speed and SFP type.
+
+F
+    Firecode - BASE-R Firecode FEC compatible with 10G.
+
+R
+    Reed-Solomon - Reed-Solomon FEC new for 25G.
+
+N
+    none - No FEC is used.
 
 Agilio CX 1x40GbE - AMDA0081
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+Set port 0 to 40G mode::
 
-    # set port 0 to 40G mode
-    $ nfp-media phy0=40G
-    # set port 0 to 4x10G fanout mode
-    $ nfp-media phy0=4x10G
+    # nfp-media phy0=40G
+
+Set port 0 to 4x10G fanout mode::
+
+    # nfp-media phy0=4x10G
 
 Agilio CX 2x40GbE - AMDA0097
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+Set port 0 and port 1 to 40G mode::
 
-    # set port 0 and port 1 to 40G mode
-    $ nfp-media phy0=40G phy1=40G
-    # set port 0 to 4x10G fanout mode
-    $ nfp-media phy0=4x10G
+    # nfp-media phy0=40G phy1=40G
 
-    # for mixed configuration the highest port must be in 40G mode e.g.
-    $ nfp-media phy0=4x10G phy1=40G
+Set port 0 to 4x10G fanout mode::
 
+    # nfp-media phy0=4x10G
 
+For mixed configuration the highest port must be in 40G mode e.g.::
+
+    # nfp-media phy0=4x10G phy1=40G

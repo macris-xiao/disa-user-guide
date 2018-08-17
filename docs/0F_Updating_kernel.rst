@@ -1,23 +1,23 @@
+.. highlight:: console
+
 Appendix F: Upgrading the Kernel
 ================================
 
 RHEL 7.5
 --------
 
-It is only recommended to use kernel packages released by Red Hat and
-installable as part of the distribution installation and upgrade procedure.
+Only kernel packages released by Red Hat and installable as part of the
+distribution installation and upgrade procedure are supported.
 
-Centos 7.5
+CentOS 7.5
 ----------
 
-The Centos package installer yum will manage an update to the supported kernel
-version. The command ``$yum install kernel-<version>`` updates the kernel for
-Centos. First search for available kernel packages then install the desired
-release:
+The CentOS package installer yum will manage an update to the supported kernel
+version. The command ``yum install kernel-${VERSION}`` updates the kernel for
+CentOS. First search for available kernel packages then install the desired
+release::
 
-.. code:: bash
-
-    $ yum list --showduplicates kernel
+    # yum list --showduplicates kernel
     kernel.x86_64
     3.10.0-862.el7
     base
@@ -28,7 +28,7 @@ release:
     3.10.0-862.3.2.el7
     updates
 
-    $ yum install kernel-3.10.0-862.el7
+    # yum install kernel-3.10.0-862.el7
 
 Ubuntu 18.04 LTS
 ----------------
@@ -39,10 +39,11 @@ writing, v4.18 is the newest stable kernel.
 Acquire packages
 ````````````````
 
-.. code:: bash
+.. code-block:: bash
+    :linenos:
 
-    $ BASE=http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.18/
-    $ wget\
+    BASE=http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.18/
+    wget\
         $BASE/linux-headers-4.18.0-041800_4.18.0-041800.201808122131_all.deb \
         $BASE/linux-headers-4.18.0-041800-generic_4.18.0-041800.201808122131_amd64.deb \
         $BASE/linux-image-unsigned-4.18.0-041800-generic_4.18.0-041800.201808122131_amd64.deb \
@@ -51,9 +52,10 @@ Acquire packages
 Install packages
 ````````````````
 
-.. code:: bash
+.. code-block:: bash
+    :linenos:
 
-    $ dpkg -i \
+    dpkg -i \
         linux-headers-4.18.0-041800_4.18.0-041800.201808122131_all.deb \
         linux-headers-4.18.0-041800-generic_4.18.0-041800.201808122131_amd64.deb \
         linux-image-unsigned-4.18.0-041800-generic_4.18.0-041800.201808122131_amd64.deb \

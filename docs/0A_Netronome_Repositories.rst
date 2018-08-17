@@ -3,59 +3,31 @@ Appendix A: Netronome Repositories
 
 All the software mentioned in this document can be obtained via the official
 Netronome repositories. Please find instructions below on how to enable access
-to the aforementioned repositories from your respective linux distributions.
+to the aforementioned repositories from your respective Linux distributions.
 
-Importing gpg-key
------------------
-
-Download and Import GPG-key to your local machine:
-
-For RHEL/Centos 7.5
-
-.. code:: bash
-
-    # Download the public key
-    $ wget https://rpm.netronome.com/gpg/NetronomePublic.key
-
-    # Import the public key
-    $ rpm --import NetronomePublic.key
-
-For Ubuntu 18.04 LTS
-
-.. code:: bash
-
-    # Download the public key
-    $ wget https://deb.netronome.com/gpg/NetronomePublic.key
-
-    # Import the public key
-    $ apt-key add NetronomePublic.key
-
-Configuring repositories
+Configuring Repositories
 ------------------------
 
-For RHEL/Centos 7.5
+For RHEL/CentOS 7.5:
 
-.. code:: bash
+.. code-block:: bash
+    :linenos:
 
-    # add netronome's repository
-    $ cat << 'EOF' > /etc/yum.repos.d/netronome.repo
+    cat << 'EOF' > /etc/yum.repos.d/netronome.repo
     [netronome]
     name=netronome
     baseurl=https://rpm.netronome.com/repos/centos/
+    gpgcheck=0
     EOF
-
-    # update repository lists
-    $ yum update
+    yum update
 
 
-For Ubuntu 18.04 LTS
+For Ubuntu 18.04 LTS:
 
-.. code:: bash
+.. code-block:: bash
+    :linenos:
 
-    # add netronome's repository
-    $ mkdir -p /etc/apt/sources.list.d/
-    $ echo "deb https://deb.netronome.com/apt stable main" > \
+    mkdir -p /etc/apt/sources.list.d/
+    echo "deb [trusted=yes] https://deb.netronome.com/apt stable main" > \
         /etc/apt/sources.list.d/netronome.list
-
-    # update repository lists
-    $ apt-get update
+    apt-get update

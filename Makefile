@@ -48,6 +48,7 @@ help:
 	@echo "  pseudoxml  to make pseudoxml-XML files for display purposes"
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
+	@echo "  spelling   to run spellcheck (needs sphinxcontrib-spellcheck)"
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
 .PHONY: clean
@@ -205,6 +206,12 @@ coverage:
 	$(SPHINXBUILD) -b coverage $(ALLSPHINXOPTS) $(BUILDDIR)/coverage
 	@echo "Testing of coverage in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/coverage/python.txt."
+
+.PHONY: spelling
+spelling:
+	$(SPHINXBUILD) -b spelling $(ALLSPHINXOPTS) $(BUILDDIR)/spelling
+	@echo "Spellcheck in the sources finished, look at the " \
+	      "results in $(BUILDDIR)/spelling/output.txt."
 
 .PHONY: xml
 xml:
