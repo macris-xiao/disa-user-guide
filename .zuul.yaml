@@ -1,16 +1,42 @@
----
-- job:
-    name: disa-docs-build
-    description: Build the disa docs
-    run: playbooks/docbuild.yaml
-    success-url: 'docs-html/index.html'
 - project:
     name: disa/disa-docs
     check:
       jobs:
         - linters
-        - disa-docs-build
+        - build-sphinx-docs:
+            success-url: 'html/'
+            vars:
+              sphinx_source_dir: "doc"
+              sphinx_build_dir: "build"
+              sphinx_builders:
+                - html
+                - spelling
+
     gate:
       jobs:
         - linters
-        - disa-docs-build
+        - build-sphinx-docs:
+            success-url: 'html/'
+            vars:
+              sphinx_source_dir: "doc"
+              sphinx_build_dir: "build"
+              sphinx_builders:
+                - html
+
+#    post:
+#      jobs:
+#        - build-sphinx-docs:
+#            success-url: 'singlehtml/'
+#            vars:
+#              sphinx_source_dir: "doc"
+#              sphinx_build_dir: "build"
+#              sphinx_builders:
+#                - singlehtml
+#        - freshdesk-doc-upload:
+#            dependencies:
+#              - build-sphinx-docs
+#            vars:
+#              article_category: "Netronome Only"
+#              article_folder: "Test folder for API development"
+#              article_title: "Test Article"
+#              article_location: "{{ sphinx_artifacts_url }}/index.html"

@@ -5,8 +5,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = disa
-SOURCEDIR     = docs
-BUILDDIR      = docs-html
+SOURCEDIR     = doc
+BUILDDIR      = build
 PAPER         =
 
 # User-friendly check for sphinx-build
