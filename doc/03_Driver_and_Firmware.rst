@@ -201,6 +201,7 @@ For RHEL/CentOS 7.5 systems, it is recommended to append the following snippet:
 
 .. code-block:: bash
     :linenos:
+    :lineno-start: 42
 
     # RHEL 7.5 distro-specific initramfs section
     DRACUT_CONF=/etc/dracut.conf.d/98-nfp-firmware.conf
@@ -212,6 +213,7 @@ This adds the symlink and firmware to the initramfs. Alternatively, for Ubuntu
 
 .. code-block:: bash
     :linenos:
+    :lineno-start: 42
 
     # Ubuntu 18.04 distro-specific initramfs section
     HOOK=/etc/initramfs-tools/hooks/agilio_firmware
