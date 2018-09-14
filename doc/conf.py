@@ -16,17 +16,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 # sys.path.insert(0, os.path.abspath('.'))
-import os
-import sys
-import urllib
-
-
-EXT_URL = ('https://raw.githubusercontent.com/bollie/'
-           'sphinxcontrib-imageembed/master/sphinxcontrib/imageembed.py')
-if not os.path.isfile('imageembed.py'):
-    urllib.urlretrieve(EXT_URL, 'imageembed.py')
-sys.path.insert(0, os.path.abspath('.'))
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -37,14 +26,13 @@ sys.path.insert(0, os.path.abspath('.'))
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.autosectionlabel',
     'sphinxcontrib.spelling',
-    'imageembed',
+    'sphinxcontrib.imageembed',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
