@@ -1,5 +1,5 @@
 - project:
-    name: disa/disa-docs
+    name: disa/disa-docs/disa-user-guide
     check:
       jobs:
         - linters
