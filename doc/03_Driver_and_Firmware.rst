@@ -506,7 +506,8 @@ Restarting *network-dispatcher* should now set the MTU and bring up the link of
 .. note::
 
     For Ubuntu based systems, VF creation may also be done using this trigger
-    method.
+    method. Refer to :ref:`05_Using_linux_driver:Configuring SR-IOV` for
+    details.
 
 .. code-block:: console
 

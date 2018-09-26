@@ -63,11 +63,20 @@ illustrates how to do this with *NetworkManager* for the physical function
     EOF
     chmod 755 /etc/NetworkManager/dispatcher.d/99-create-vfs
 
-.. note::
+In Ubuntu systems, *networkd-dispatcher* can be used in place of
+*NetworkManager*, using a similar approach to setting up the PF:
 
-    Ubuntu users should consult the relevant section in
-    :ref:`03_Driver_and_Firmware:PF Link Configuration` for a more appropriate
-    method of persisting virtual functions.
+.. code-block:: bash
+    :linenos:
+
+    #!/bin/sh
+    cat > /usr/lib/networkd-dispatcher/routable.d/50-ifup-noaddr << 'EOF'
+    #!/bin/sh
+    ip link set mtu 9420 dev p5p1
+    ip link set up dev p5p1
+    cat /sys/class/net/p5p1/device/sriov_totalvfs > /sys/class/net/p5p1/device/sriov_numvfs
+    EOF
+    chmod u+x /usr/lib/networkd-dispatcher/routable.d/50-ifup-noaddr
 
 Configuring Interface Media Mode
 --------------------------------
