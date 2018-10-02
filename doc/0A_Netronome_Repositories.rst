@@ -19,7 +19,7 @@ For RHEL/CentOS 7.5:
     baseurl=https://rpm.netronome.com/repos/centos/
     gpgcheck=0
     EOF
-    yum update
+    yum makecache fast
 
 
 For Ubuntu 18.04 LTS:
