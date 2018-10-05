@@ -43,18 +43,35 @@ A flow may be offloaded if:
 #. The input port of the flow is:
 
     #. A physical port or VF on an Agilio SmartNIC or;
-    #. A VXLAN vport whose ingress packets are received on a physical port
-       on an Agilio SmartNIC (flow rule must include outer IP addresses
-       and use the default VXLAN port 4789) and whose egress action is to a
-       VF port on an Agilio SmartNIC.
+    #. A supported tunnel vport whose ingress packets are received on a
+       physical port on an Agilio SmartNIC and whose egress action is to a VF
+       port on an Agilio SmartNIC.
 
 #. If present, the output action outputs to:
 
     #. A physical port or VF on the same Agilio SmartNIC as the input port or;
-    #. A VXLAN vport whose egress packets are sent on a physical port
-       of the same Agilio SmartNIC as the input port.
+    #. A tunnel vport whose egress packets are sent on a physical port of the
+       same Agilio SmartNIC as the input port.
 
-#. Only the input port or output port may be a VXLAN tunnel, not both.
+#. Only the input port or output port may be a tunnel vport, not both.
+
+Supported tunnel vports:
+
+- VXLAN tunnel vports are supported as of upstream Linux kernel v4.16 and
+  OVS v2.8, RHEL/CentOS 7.5 and Ubuntu 18.04 LTS.
+
+- Geneve tunnel vports are supported as of upstream Linux kernel v4.16
+  and OVS v2.8, RHEL 7.6 and Ubuntu 18.10. Confirmation of support in
+  CentOS 7.6 is pending its release.
+
+- Support for Geneve options has been accepted for inclusion in upstream
+  Linux kernel v4.19 and OVS v2.11. Support in RHEL, CentOS and Ubuntu is
+  pending.
+
+UDP-based tunnel vports must use the default UDP port for the tunnel type:
+
+- VXLAN: port 4789.
+- Geneve: port 6801.
 
 Other than output and the implicit drop action, flows using the following
 actions may be offloaded:

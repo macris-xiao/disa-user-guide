@@ -1,5 +1,4 @@
 Agilio
-br
 CentOS
 Checksum
 Config
@@ -8,6 +7,7 @@ Firecode
 Frag
 GPG
 GbE
+Geneve
 IPv
 Metadata
 Netdev
@@ -16,10 +16,12 @@ Offloadable
 Reconfiguring
 SLB
 SmartNIC
+UDP
 Ubuntu
 Upstreamed
 Userspace
 autostart
+br
 checksum
 chipset
 config
@@ -56,3 +58,4 @@ upstreamed
 userspace
 vSwitch
 vport
+vports
