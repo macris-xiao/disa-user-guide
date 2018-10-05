@@ -3,8 +3,8 @@
 Appendix F: Upgrading the Kernel
 ================================
 
-RHEL 7.5
---------
+RHEL 7.5+
+---------
 
 Only kernel packages released by Red Hat and installable as part of the
 distribution installation and upgrade procedure are supported.

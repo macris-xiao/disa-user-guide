@@ -7,12 +7,13 @@ The preferred method of installing and upgrading Agilio firmware is via the
 distribution repositories. The minimum recommended versions are those provided
 in GA releases of distributions. As a guide they are as follows:
 
-============ ===============================
-Operating    System Firmware package version
-============ ===============================
-RHEL 7.5     ``20180220-62.git6d51311.el7``
-Ubuntu 18.04 ``1.173``
-============ ===============================
+================ ===============================
+Operating System Firmware package version
+================ ===============================
+RHEL 7.5         ``20180220-62.git6d51311.el7``
+RHEL 7.6         ``20180911-68.git85c5d90.el7``
+Ubuntu 18.04 LTS ``1.173``
+================ ===============================
 
 Netronome provides firmware packages with newer features as out-of-tree
 repositories.  The corresponding installation packages can be obtained from
@@ -27,7 +28,7 @@ Repositories` on how to configure the Netronome repository applicable to your
 distribution. When the repository has been successfully added install the
 *agilio-flower-app-firmware* package using the commands below.
 
-In RHEL/CentOS 7.5::
+In RHEL 7.5+ and CentOS 7.5::
 
     # yum install agilio-flower-app-firmware
 
@@ -42,7 +43,7 @@ The latest firmware can be obtained at the downloads area of the Netronome
 Support site (https://help.netronome.com). Install the packages provided by
 Netronome Support using the commands below.
 
-In RHEL/CentOS 7.5::
+In RHEL 7.5+ and CentOS 7.5::
 
     # yum install -y agilio-flower-app-firmware-*.rpm
 
@@ -67,7 +68,7 @@ Once selected the driver should be reloaded to use the new firmware::
 The initramfs image should also be update to ensure the correct firmware
 version is loaded at boot time.
 
-In RHEL/CentOS 7.5 this is done using::
+In RHEL 7.5+ and CentOS 7.5 this is done using::
 
     # dracut -f
 

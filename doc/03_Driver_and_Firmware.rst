@@ -12,6 +12,7 @@ operating system distributions and their respective kernels which include the
 Operating System Kernel package version
 ================ ======================
 RHEL/CentOS 7.5  ``3.10.0-862.el7``
+RHEL 7.6         ``3.10.0-952.el7``
 Ubuntu 18.04 LTS ``4.15.0-20.21``
 ================ ======================
 
@@ -197,13 +198,14 @@ symbolic link:
 
     # insert distro-specific initramfs section here...
 
-For RHEL/CentOS 7.5 systems, it is recommended to append the following snippet:
+For RHEL 7.5+ and CentOS 7.5 systems, it is recommended to append the
+following snippet:
 
 .. code-block:: bash
     :linenos:
     :lineno-start: 42
 
-    # RHEL 7.5 distro-specific initramfs section
+    # RHEL 7.5+ and CentOS 7.5 distro-specific initramfs section
     DRACUT_CONF=/etc/dracut.conf.d/98-nfp-firmware.conf
     echo "install_items+=\" ${FW} \"" > "${DRACUT_CONF}"
     dracut -f
@@ -427,8 +429,8 @@ to being larger than the MTU of the PF.
 Settings
 --------
 
-RHEL/CentOS 7.5
-~~~~~~~~~~~~~~~
+RHEL 7.5+ and CentOS 7.5
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 *NetworkManager* may be configured to bring up a device without addresses as
 follows. *NetworkManager* may not present on some installs (check with

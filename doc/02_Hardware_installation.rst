@@ -4,15 +4,16 @@ Hardware Installation
 =====================
 
 This user guide focuses on x86 deployments of Open vSwitch hardware
-acceleration in supported versions of Ubuntu 18.04, Red Hat Enterprise Linux
-and CentOS 7.5. As detailed in :ref:`03_Driver_and_Firmware:Validating the
-Driver`, Netronome's Agilio SmartNIC firmware is now upstreamed with the latest
-supported kernel versions of Ubuntu and RHEL/CentOS. Whilst out-of-tree driver
-source files are available and installation instructions are included in
+acceleration in supported versions of Ubuntu 18.04, Red Hat Enterprise
+Linux (RHEL) 7.5+, and CentOS 7.5. As detailed in
+:ref:`03_Driver_and_Firmware:Validating the Driver`, Netronome's Agilio
+SmartNIC firmware is now upstreamed with the latest supported kernel
+versions of Ubuntu and RHEL/CentOS. Whilst out-of-tree driver source files
+are available and installation instructions are included in
 :ref:`0C_Install_oot_nfp_driver:Appendix C: Installing the Out-of-Tree NFP
 Driver`, it is highly recommended, where possible, to make use of the
-upstreamed drivers.  Wherever applicable, separate instructions for RHEL/CentOS
-and Ubuntu are provided.
+upstreamed drivers.  Wherever applicable, separate instructions for
+RHEL/CentOS and Ubuntu are provided.
 
 .. note:: All commands in this guide are assumed to be run as root
 

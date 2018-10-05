@@ -175,10 +175,10 @@ that the Agilio CX 2x25GbE SmartNIC used for the example above only supports
 .. note::
 
     ``ethtool`` FEC support is only available in kernel 4.14 and newer or
-    RHEL/CentOS 7.5 and equivalent distributions. The Netronome upstream kernel
-    driver provides ``ethtool`` FEC support from kernel 4.15. Furthermore, the
-    SmartNIC NVRAM version must be at least ``020025.020025.02006e`` to support
-    ``ethtool`` FEC get/set operations.
+    RHEL 7.5+ CentOS 7.5, and equivalent distributions. The Netronome
+    upstream kernel driver provides ``ethtool`` FEC support from kernel
+    4.15. Furthermore, the SmartNIC NVRAM version must be at least
+    ``020025.020025.02006e`` to support ``ethtool`` FEC get/set operations.
 
 To determine your version of the current SmartNIC NVRAM, examine the kernel
 message buffer::
@@ -356,11 +356,11 @@ Confirming Connectivity
 Allocating IP Addresses
 ```````````````````````
 
-Under RHEL/CentOS 7.5, the network configuration is managed by default using
-*NetworkManager*. The default configuration for unset interfaces is *auto*,
-which implies that an auto-configuration client is running on them. This means
-that any manual configuration made using ``ifconfig`` or ``iproute2`` will be
-periodically erased.
+Under RHEL 7.5+ and CentOS 7.5, the network configuration is managed by
+default using *NetworkManager*. The default configuration for unset
+interfaces is *auto*, which implies that an auto-configuration client is
+running on them. This means that any manual configuration made using
+``ifconfig`` or ``iproute2`` will be periodically erased.
 
 Consult the *NetworkManager* documentation for detailed instructions. For
 example, if a connection is named ``ens1np0`` (which corresponds to the

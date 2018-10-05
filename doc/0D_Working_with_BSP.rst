@@ -14,8 +14,8 @@ Repositories` on how to configure the Netronome repository applicable to your
 distribution. When the repository has been successfully added install the BSP
 package using the commands below.
 
-RHEL/CentOS 7.5
-```````````````
+RHEL 7.5+ and CentOS 7.5
+````````````````````````
 
 .. code-block:: console
 
@@ -47,8 +47,8 @@ Support site (https://help.netronome.com).
 Install the prerequisite dependencies
 `````````````````````````````````````
 
-RHEL/CentOS 7.5 Dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RHEL 7.5+ and CentOS 7.5 Dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 No dependency installation required
 
@@ -64,8 +64,8 @@ NFP BSP Package
 
 Install the NFP BSP package provided by Netronome Support.
 
-RHEL 7.5 Install
-~~~~~~~~~~~~~~~~
+RHEL 7.5+ and CentOS 7.5 Install
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: console
 
