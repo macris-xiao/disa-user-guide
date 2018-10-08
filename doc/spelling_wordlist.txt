@@ -1,4 +1,5 @@
 Agilio
+autonegotiation
 CentOS
 Checksum
 Config

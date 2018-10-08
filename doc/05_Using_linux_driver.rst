@@ -213,9 +213,26 @@ port representors::
     Configured FEC encodings: Auto Off BaseR RS
     Active FEC encoding: Auto
 
+To force the FEC mode for a particular port, autonegotiation must be disabled
+with the following::
+
+    # ip link set enp130s0np0 down
+    # ethtool -s enp130s0np0 autoneg off
+    # ip link set enp130s0np0 up
+
+.. note::
+
+    In order to change the autonegotiation configuration the port must be down.
+
+.. note::
+
+    Changing the autonegotiation configuration will not affect the SmartNIC
+    port speed.  Please see :ref:`05_Using_linux_driver:Configuring interface
+    link-speed` to adjust this setting.
+
 To modify the FEC mode to *Firecode BaseR*::
 
-   # ethtool --set-fec enp130s0np0 encoding baser
+    # ethtool --set-fec enp130s0np0 encoding baser
 
 Verify the newly selected mode::
 
@@ -224,7 +241,7 @@ Verify the newly selected mode::
     Configured FEC encodings: Auto Off BaseR RS
     Active FEC encoding: BaseR
 
-To modify the FEC mode to *Reed ASolomon*::
+To modify the FEC mode to *Reed Solomon*::
 
     # ethtool --set-fec enp130s0np0 encoding rs
 
