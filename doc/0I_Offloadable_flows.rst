@@ -47,13 +47,13 @@ A flow may be offloaded if:
        physical port on an Agilio SmartNIC and whose egress action is to a VF
        port on an Agilio SmartNIC.
 
-#. If present, the output action outputs to:
+#. If present, the output actions output to:
 
     #. A physical port or VF on the same Agilio SmartNIC as the input port or;
     #. A tunnel vport whose egress packets are sent on a physical port of the
        same Agilio SmartNIC as the input port.
 
-#. Only the input port or output port may be a tunnel vport, not both.
+#. Only the input port or output ports may be a tunnel vport, not both.
 
 Supported tunnel vports:
 
@@ -72,6 +72,10 @@ UDP-based tunnel vports must use the default UDP port for the tunnel type:
 
 - VXLAN: port 4789.
 - Geneve: port 6801.
+
+Offload of flows that output to more than one port is supported when using
+OVS v2.10, as found in the Fast Datapath repository for RHEL 7. Otherwise
+only flows that output to at most one port may be offloaded.
 
 Other than output and the implicit drop action, flows using the following
 actions may be offloaded:
