@@ -18,11 +18,9 @@ For RHEL 7.5+ and CentOS 7.5:
     name=netronome
     baseurl=https://rpm.netronome.com/repos/centos/
     gpgcheck=0
+    enabled=1
     EOF
-
-Update repository lists::
-
-    yum makecache fast
+    yum makecache
 
 For Ubuntu 18.04 LTS:
 
