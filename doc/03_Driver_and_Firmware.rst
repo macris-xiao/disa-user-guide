@@ -12,7 +12,7 @@ operating system distributions and their respective kernels which include the
 Operating System Kernel package version
 ================ ======================
 RHEL/CentOS 7.5  ``3.10.0-862.el7``
-RHEL 7.6         ``3.10.0-952.el7``
+RHEL 7.6         ``3.10.0-957.el7``
 Ubuntu 18.04 LTS ``4.15.0-20.21``
 ================ ======================
 
