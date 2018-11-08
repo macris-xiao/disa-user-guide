@@ -149,3 +149,8 @@ required, an additional bridge (named ``br0`` in this example) is required on
 which the match/actions are performed, allowing the bond bridge to only have
 the NORMAL rule. This additional bridge can be connected to the bond bridge
 using a patch port.
+
+.. note::
+
+    The maximum number of flows that can be offloaded in RHEL 7.5/7.6 and
+    Ubuntu 18.04 is 128k. This has been increased to 500k in kernel 4.20.
