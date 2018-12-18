@@ -41,6 +41,7 @@ port representor::
 
     # ethtool -f ens3 flash-nic.bin
     # ethtool -f ens3 flash-one.bin
+    # reboot
 
 Update via BSP Userspace Tools
 ------------------------------
