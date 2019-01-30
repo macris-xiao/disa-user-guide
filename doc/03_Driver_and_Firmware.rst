@@ -409,6 +409,36 @@ PF is located at ``0000:04:00.0``, ``VF1`` would be at ``0000:04:08.1``, and
     lrwxrwxrwx 1 0  /sys/bus/pci/drivers/nfp/0000:04:00.0/virtfn1 -> ../0000:04:08.1
     lrwxrwxrwx 1 0  /sys/bus/pci/drivers/nfp/0000:04:00.0/virtfn9 -> ../0000:04:09.1
 
+Support for ``biosdevname``
+---------------------------
+
+Netronome NICs support ``biosdevname`` *netdev* naming with recent versions
+of the utility, circa December 2018, e.g. RHEL 8.0 and up. Furthermore,
+``biosdevname`` will only be supported on kernel v4.19+. There are some
+notable points to be aware of:
+
+* Whenever an unsupported *netdev* is considered for naming, the
+  ``biosdevname`` naming will be skipped and the next inline naming scheme
+  will take preference, e.g. the ``systemd`` naming policies.
+
+* *Netdevs* in breakout mode are not supported for naming.
+
+* VF *netdevs* will still be subject to ``biosdevname`` naming irrespective
+  of the breakout mode of other *netdevs*.
+
+* Physical function *netdevs* are not supported for naming.
+
+* PF and VF representor *netdevs* are not supported for naming.
+
+* When using an older version of the ``biosdevname`` utility or an older
+  kernel, users will observe inconsistent naming of *netdevs*.
+
+To disable ``biosdevname`` users can add ``biosdevname=0`` to the kernel
+command line.
+
+Refer to the online ``biosdevname`` documentation for more details about the
+naming policy convention that will be applied.
+
 PF Link Configuration
 =====================
 
@@ -552,4 +582,3 @@ Verify link state and MTU of the PF *netdev*. For example the *netdev*
         link/ether 0e:c4:88:90:27:88 brd ff:ff:ff:ff:ff:ff
         inet6 fe80::cc4:88ff:fe90:2788/64 scope link
           valid_lft forever preferred_lft forever
-
