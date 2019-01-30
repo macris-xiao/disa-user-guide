@@ -69,5 +69,6 @@ Then use the included Netronome flashing tools to reflash the card::
 
     # /opt/netronome/bin/nfp-flash --preserve-media-overrides \
         -w /opt/netronome/flash/flash-nic.bin -Z 0000:04:00.0
-    # /opt/netronome/bin/nfp-one -Z 0000:04:00.0
+    # /opt/netronome/bin/nfp-flash -w /opt/netronome/flash/flash-one.bin \
+        -Z 0000:04:00.0
     # reboot
