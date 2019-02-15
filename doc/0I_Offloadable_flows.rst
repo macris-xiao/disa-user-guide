@@ -153,4 +153,4 @@ using a patch port.
 .. note::
 
     The maximum number of flows that can be offloaded in RHEL 7.5/7.6 and
-    Ubuntu 18.04 is 128k. This has been increased to 500k in kernel 4.20.
+    Ubuntu 18.04 is 128k. This has been increased to 480k in kernel 4.20.
