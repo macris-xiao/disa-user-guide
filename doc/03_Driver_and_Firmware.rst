@@ -12,9 +12,15 @@ operating system distributions and their respective kernels which include the
 Operating System Kernel package version
 ================ ======================
 RHEL/CentOS 7.5  ``3.10.0-862.el7``
-RHEL 7.6         ``3.10.0-957.el7``
+RHEL/CentOS 7.6  ``3.10.0-957.el7``
+RHEL 8.0         ``4.18.0-80.el8``
 Ubuntu 18.04 LTS ``4.15.0-20.21``
 ================ ======================
+
+.. note::
+
+    Only the x86_64 architecture has been verified, if support for other
+    architectures is required please contact Netronome support: :ref:`XX_contact_us:Contact Us`.
 
 Confirm Upstreamed NFP Driver
 -----------------------------
@@ -459,8 +465,8 @@ to being larger than the MTU of the PF.
 Settings
 --------
 
-RHEL 7.5+ and CentOS 7.5
-~~~~~~~~~~~~~~~~~~~~~~~~
+RHEL 7.5+ and CentOS 7.5+
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *NetworkManager* may be configured to bring up a device without addresses as
 follows. *NetworkManager* may not present on some installs (check with

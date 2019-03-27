@@ -10,6 +10,12 @@ Appendix I: Offloadable Flows
 Flows may be offloaded to hardware if they meet the criteria described in this
 section.
 
+.. note::
+
+    The maximum number of flows that can be offloaded in RHEL 7.5/7.6 and
+    Ubuntu 18.04 is 128k. This has been increased to 480k in kernel 4.20
+    and has been backported to the 4.18-based kernel provided by RHEL 8.0.
+
 Matches
 -------
 
@@ -61,12 +67,11 @@ Supported tunnel vports:
   OVS v2.8, RHEL/CentOS 7.5 and Ubuntu 18.04 LTS.
 
 - Geneve tunnel vports are supported as of upstream Linux kernel v4.16
-  and OVS v2.8, RHEL 7.6 and Ubuntu 18.10. Confirmation of support in
-  CentOS 7.6 is pending its release.
+  and OVS v2.8, RHEL/CentOS 7.6 and Ubuntu 18.10.
 
 - Support for Geneve options has been accepted for inclusion in upstream
-  Linux kernel v4.19 and OVS v2.11. Support in RHEL, CentOS and Ubuntu is
-  pending.
+  Linux kernel v4.19 and OVS v2.11. This is included in RHEL8+, support in
+  CentOS and Ubuntu is pending.
 
 UDP-based tunnel vports must use the default UDP port for the tunnel type:
 
@@ -74,7 +79,7 @@ UDP-based tunnel vports must use the default UDP port for the tunnel type:
 - Geneve: port 6801.
 
 Offload of flows that output to more than one port is supported when using
-OVS v2.10, as found in the Fast Datapath repository for RHEL 7. Otherwise
+OVS v2.10+, as found in the Fast Datapath repository for RHEL 7. Otherwise
 only flows that output to at most one port may be offloaded.
 
 Other than output and the implicit drop action, flows using the following
@@ -108,6 +113,9 @@ offloaded:
 
 Bonds
 -----
+
+Using native Open vSwitch bonds
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Flows resulting from the following modes could be accelerated:
 
@@ -150,7 +158,197 @@ which the match/actions are performed, allowing the bond bridge to only have
 the NORMAL rule. This additional bridge can be connected to the bond bridge
 using a patch port.
 
+Configuring Linux bonds
+~~~~~~~~~~~~~~~~~~~~~~~
+
+From RHEL 8.0+ it is possible to configure standard Linux bonds and add them
+to an Open vSwitch bridge for offloading. The process to create and use these
+bonds are shown next.
+
+First create a bond::
+
+    # ip link add bond0 type bond
+
+Add the mac-representor ports to the bond::
+
+    # ip link set dev ens1np0 master bond0
+    # ip link set dev ens1np1 master bond0
+
+If they need to be removed from the bond::
+
+    # ip link set dev ens1np0 nomaster
+    # ip link set dev ens1np1 nomaster
+
+Information about a Linux bond can be obtained by::
+
+    # cat /proc/net/bonding/bond0
+
+Example of the output from the above command:
+
+.. code-block:: text
+
+    Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+    Bonding Mode: load balancing (round-robin)
+    MII Status: up
+    MII Polling Interval (ms): 0
+    Up Delay (ms): 0
+    Down Delay (ms): 0
+
+    Slave Interface: ens1np0
+    MII Status: up
+    Speed: 40000 Mbps
+    Duplex: full
+    Link Failure Count: 0
+    Permanent HW addr: 00:15:4d:13:50:32
+    Slave queue ID: 0
+
+    Slave Interface: ens1np1
+    MII Status: up
+    Speed: 40000 Mbps
+    Duplex: full
+    Link Failure Count: 0
+    Permanent HW addr: 00:15:4d:13:50:33
+    Slave queue ID: 0
+
+Not all bonding modes are supported for offloading. The currently supported
+modes are active-backup and balance-xor. See below for more info
+configuring each mode.
+
 .. note::
 
-    The maximum number of flows that can be offloaded in RHEL 7.5/7.6 and
-    Ubuntu 18.04 is 128k. This has been increased to 480k in kernel 4.20.
+    All slaves needs to be removed from a bond before the mode can be changed.
+
+active-backup
++++++++++++++
+
+This mode will send traffic on only one of the ports that are aggregated in
+the bond. This mode is configured by executing::
+
+    # ip link set dev bond0 down
+    # ip link set dev ens1np0 nomaster bond0
+    # ip link set dev ens1np1 nomaster bond0
+    # ip link set dev bond0 type bond mode active-backup
+    # ip link set dev bond0 type bond miimon 100
+    # ip link set dev ens1np0 master bond0
+    # ip link set dev ens1np1 master bond0
+    # ip link set dev bond0 up
+
+The ``miimon`` setting sets the interval on which the link state should be
+monitored in milliseconds. If a port down state is detected the bond will
+reconfigure itself to send the traffic out on one of the other ports
+in the bond.
+
+balance-xor
++++++++++++
+
+This mode balances traffic across the aggregated ports using a hash method.
+To enable offloading the ``xmit_hash_policy`` value must be set to either
+``layer3+4`` or ``encap3+4``. Other hashing methods will not be offloaded.
+Configuration is as follows::
+
+
+    # ip link set dev bond0 down
+    # ip link set dev ens1np0 nomaster
+    # ip link set dev ens1np1 nomaster
+    # ip link set dev bond0 type bond mode balance-xor
+    # ip link set dev bond0 type bond miimon 100
+
+To use ``layer3+4`` as hash::
+
+    # ip link set dev bond0 type bond xmit_hash_policy layer3+4
+
+To use ``encap3+4`` as hash::
+
+    # ip link set dev bond0 type bond xmit_hash_policy encap3+4
+
+Add back the slave ports and up the bond::
+
+    # ip link set dev ens1np0 master bond0
+    # ip link set dev ens1np1 master bond0
+    # ip link set dev bond0 up
+
+For more detailed information on the difference between the
+modes and the hash methods it is recommended to read the Linux kernel
+`documentation <https://www.kernel.org/doc/Documentation/networking/bonding.txt>`_
+on the subject.
+
+Configuring Linux teaming
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Another method of setting up link aggregated ports is to use Linux teaming.
+Teaming is controlled using the ``teamd`` and ``teamdctl`` utilities, as
+will be demonstrated below.
+
+Creating a new team device for active-backup mode::
+
+    # teamd -t bond0 -d -c '{"runner": {"name": "activebackup"}}'
+
+Creating a new team device for load balancing mode. The hashing method for
+teaming is not as well defined so for offloading to the NFP this will hash on
+L3 and L4::
+
+    # teamd -t bond0 -d -c '{"runner": {"name": "lacp"}}'
+
+Ports are added using ``teamdctl``::
+
+    # teamdctl bond0 port add ens6np0
+    # teamdctl bond0 port add ens6np1
+
+The port config can be dumped using::
+
+    # teamdctl bond0 config dump
+
+Example output:
+
+.. code-block:: text
+
+    {
+        "device": "bond0",
+        "ports": {
+            "ens6np0": {
+                "link_watch": {
+                    "name": "ethtool"
+                }
+            },
+            "ens6np1": {
+                "link_watch": {
+                    "name": "ethtool"
+                }
+            }
+        },
+        "runner": {
+            "name": "lacp",
+            "tx_hash": [
+                "eth",
+                "ipv4",
+                "ipv6"
+            ]
+        }
+    }
+
+For more usage instructions using teaming take a look at the man
+pages for ``teamd`` and ``teamdctl``.
+
+Using Linux bonds/teaming with Open vSwitch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once the bond is configured as shown in section
+:ref:`0I_Offloadable_flows:Configuring Linux bonds`
+it is possible to use it with Open vSwitch, by adding the bond port to the
+bridge as with any other type of port. See the following example which adds a
+bridge, configures the bond port as well as a VF representor port and then adds
+two simple flow rules that forwards all traffic between the VF and the bond::
+
+    # ovs-vsctl add-br br0
+    # ovs-vsctl add-port br0 bond0
+    # ovs-vsctl add-port br0 vf0_repr
+    # ovs-ofctl add-flow br0 in_port=bond0,actions=output:vf0_repr
+    # ovs-ofctl add-flow br0 in_port=vf0_repr,actions=output:bond0
+
+Teams are used with Open vSwitch in exactly the same way as bonds.
+
+.. note::
+
+    Currently it is not possible to use bonding in conjunction with any of the
+    tunneling protocols.

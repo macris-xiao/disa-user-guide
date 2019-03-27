@@ -24,8 +24,10 @@ List all available pools::
     # subscription-manager list --all --available
 
 Identify the IDs of the license pools that provide the following products:
-- Red Hat Enterprise Linux
-- Red Hat Enterprise Linux Fast Datapath
+
+    - Red Hat Enterprise Linux
+    - Red Hat Enterprise Linux Fast Datapath
+
 This can be done by using the ``--matches`` flag::
 
     # subscription-manager list --available --matches="Red Hat Enterprise Linux Fast Datapath"
@@ -34,6 +36,12 @@ Attach the system to these pools (by using the correct license pool IDs)::
 
     # subscription-manager attach --pool=${RHEL_PACKAGE_POOL_ID}
 
-Enable the Fast Datapath repository::
+Enable the Fast Datapath repository for the relevant version of RHEL:
+
+RHEL 7.5+::
 
     # subscription-manager repos --enable rhel-7-fast-datapath-rpms
+
+RHEL 8.0+::
+
+    # subscription-manager repos --enable rhel-8-fast-datapath-rpms

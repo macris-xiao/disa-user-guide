@@ -20,7 +20,7 @@ RHEL 7.5+ and CentOS 7.5
 .. code-block:: console
 
     # yum list available | grep nfp-bsp
-    nfp-bsp-6000-b0.x86_64                   2017.12.05.1404-1          netronome
+    nfp-bsp-6000-b0.x86_64                   2018.10.31.1229-1          netronome
 
     # yum install nfp-bsp-6000-b0 --nogpgcheck
     # reboot
