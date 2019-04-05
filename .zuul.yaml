@@ -25,21 +25,23 @@
               sphinx_builders:
                 - html
 
-#    post:
-#      jobs:
-#        - build-sphinx-docs:
-#            success-url: 'singlehtml/'
-#            vars:
-#              doc_building_packages: "sphinx==1.7.8"
-#              sphinx_source_dir: "doc"
-#              sphinx_build_dir: "build"
-#              sphinx_builders:
-#                - singlehtml
-#        - freshdesk-doc-upload:
-#            dependencies:
-#              - build-sphinx-docs
-#            vars:
-#              article_category: "Netronome Only"
-#              article_folder: "Test folder for API development"
-#              article_title: "Test Article"
-#              article_location: "{{ sphinx_artifacts_url }}/index.html"
+# Publish pipeline is trigger with a git tag of 20yy-mm-dd
+# https://ci.netronome.com/cgit/config/tree/zuul.d/additional_pipelines.yaml
+    publish:
+      jobs:
+        - build-sphinx-docs:
+            success-url: 'singlehtml/'
+            vars:
+              doc_building_packages: "sphinx==1.7.8"
+              sphinx_source_dir: "doc"
+              sphinx_build_dir: "build"
+              sphinx_builders:
+                - singlehtml
+        - freshdesk-doc-upload:
+            dependencies:
+              - build-sphinx-docs
+            vars:
+              article_category: "Agilio SmartNICs"
+              article_folder: "Agilio Open vSwitch"
+              article_title: "Agilio Open vSwitch TC User Guide"
+              article_location: "{{ sphinx_artifacts_url }}/index.html"
