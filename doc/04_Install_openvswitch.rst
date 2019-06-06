@@ -16,7 +16,7 @@ Operating System                 Version
 RHEL 7.5         ``2.9.0-19.el7fdp``
 CentOS 7.5+      ``2.9.0-3.el7``
 RHEL 7.6         ``2.9.0-55.el7fdp``
-RHEL 8.0         ``2.10.0-10.el8fdb.3``
+RHEL 8.0         ``2.11.0-9.el8fdp``
 Ubuntu 18.04 LTS ``2.9.0-0ubuntu1``
 ================ ===============================
 

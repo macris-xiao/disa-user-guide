@@ -44,4 +44,4 @@ RHEL 7.5+::
 
 RHEL 8.0+::
 
-    # subscription-manager repos --enable rhel-8-fast-datapath-rpms
+    # subscription-manager repos --enable fast-datapath-for-rhel-8-x86_64-rpms
