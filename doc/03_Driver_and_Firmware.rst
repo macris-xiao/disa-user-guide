@@ -499,6 +499,14 @@ between the TC offload mechanism and the NFP.
 
     # nmcli c up ethernet-p5p1
 
+.. note::
+
+    It is recommended to prevent NetworkManager from managing all NFP
+    interfaces other than the PF. Having NetworkManager manage the representor
+    interfaces can interfere with the operation of OVS-TC. An example of
+    how to correctly configure NetworkManager can be found at
+    :ref:`05_Using_linux_driver:Configuring SR-IOV`
+
 Ubuntu 18.04
 ~~~~~~~~~~~~
 

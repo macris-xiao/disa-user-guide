@@ -48,23 +48,32 @@ error::
 
 In order to persist the virtual functions on the system, it is suggested that
 the system networking scripts be updated to manage them. The following snippet
-illustrates how to do this with *NetworkManager* for the physical function
-``p5p1``:
+illustrates how to implement such a configuration with *NetworkManager* for the
+physical function ``ens3``:
 
 .. code-block:: bash
     :linenos:
 
-    cat >/etc/NetworkManager/dispatcher.d/99-create-vfs << EOF
-    #!/bin/sh
-    # This is a NetworkManager script to persist the maximum number of VF's on a netdev
-    [ "p5p1" == "\$1" -a "up" == "\$2" ] && \
-        cat /sys/class/net/p5p1/device/sriov_totalvfs > /sys/class/net/p5p1/device/sriov_numvfs
-    exit
+    cat >/etc/NetworkManager/conf.d/nfp.conf << EOF
+    [keyfile]
+    unmanaged-devices=driver:nfp,driver:nfp_netvf,except:interface-name=ens3
+    [device]
+    match-device=interface-name:ens3
+    sriov-num-vfs=4
     EOF
-    chmod 755 /etc/NetworkManager/dispatcher.d/99-create-vfs
+    systemctl restart NetworkManager
+
+This will setup *NetworkManager* to create 4 VF interfaces connected to the
+PF on ``ens3``.
+
+.. note::
+
+    It is recommended to prevent NetworkManager from managing all NFP
+    interfaces other than the PF. Having NetworkManager manage the representor
+    interfaces can interfere with the operation of OVS-TC.
 
 In Ubuntu systems, *networkd-dispatcher* can be used in place of
-*NetworkManager*, using a similar approach to setting up the PF:
+*NetworkManager*, as demonstrated below:
 
 .. code-block:: bash
     :linenos:
@@ -72,9 +81,9 @@ In Ubuntu systems, *networkd-dispatcher* can be used in place of
     #!/bin/sh
     cat > /usr/lib/networkd-dispatcher/routable.d/50-ifup-noaddr << 'EOF'
     #!/bin/sh
-    ip link set mtu 9420 dev p5p1
-    ip link set up dev p5p1
-    cat /sys/class/net/p5p1/device/sriov_totalvfs > /sys/class/net/p5p1/device/sriov_numvfs
+    ip link set mtu 9420 dev ens3
+    ip link set up dev ens3
+    cat /sys/class/net/ens3/device/sriov_totalvfs > /sys/class/net/ens3/device/sriov_numvfs
     EOF
     chmod u+x /usr/lib/networkd-dispatcher/routable.d/50-ifup-noaddr
 
@@ -373,31 +382,33 @@ Confirming Connectivity
 Allocating IP Addresses
 ```````````````````````
 
-Under RHEL 7.5+ and CentOS 7.5, the network configuration is managed by
-default using *NetworkManager*. The default configuration for unset
-interfaces is *auto*, which implies that an auto-configuration client is
-running on them. This means that any manual configuration made using
-``ifconfig`` or ``iproute2`` will be periodically erased.
+Under RHEL 7.5+ and CentOS 7.5+, the network configuration is managed by
+default using *NetworkManager*. It is recommended to disable *NetworkManager*
+on the NFP interfaces when using OVS-TC, as it can interfere with the TC
+rules that get installed on the interfaces. The easiest way to achieve
+this is to configure *NetworkManager* to ignore interfaces which are bound to
+``nfp`` drivers. The config file for this can be created by:
 
-Consult the *NetworkManager* documentation for detailed instructions. For
-example, if a connection is named ``ens1np0`` (which corresponds to the
-physical port representor ``ens1np0`` of the SmartNIC), the following commands
-will set the IPv4 address statically, set it to autostart on boot, and up the
-interface.
+.. code-block:: bash
 
-.. code-block:: console
+    cat >/etc/NetworkManager/conf.d/nfp.conf << EOF
+    [keyfile]
+    unmanaged-devices=driver:nfp,driver:nfp_netvf,except:interface-name=ens1
+    EOF
+    systemctl restart NetworkManager
 
-    # nmcli c m ens1np0 ipv4.method manual
-    # nmcli c m ens1np0 ipv4.addresses 10.0.0.2/24
-    # nmcli c m ens1np0 connection.autoconnect yes
-    # nmcli c u ens1np0
+Verification can be done by looking at the output of ``nmcli d`` before
+and after the commands above. All the interfaces that are bound to the
+``nfp`` or ``nfp_netvf`` driver, except the PF ``ens1``, should now be in the
+``unmanaged`` state.
 
-Alternatively, if the interface is not under control of the distribution's
-network management subsystem, ``iproute2`` can be used to configure the port
-temporarily::
+Use ``iproute2`` to configure an IP on the port for a quick connectivity
+test. Remember to also make sure that the PF is up, ``ens1`` in the example
+below::
 
     # ip address add 10.0.0.2/24 dev ens1np0
     # ip link set ens1np0 up
+    # ip link set ens1 up
 
 Pinging interfaces
 ``````````````````
