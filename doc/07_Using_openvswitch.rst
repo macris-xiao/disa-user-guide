@@ -6,8 +6,8 @@ Using Open vSwitch
 Running Open vSwitch
 --------------------
 
-RHEL 7.5+ and CentOS 7.5
-````````````````````````
+RHEL 7.5+ and CentOS 7.5+
+`````````````````````````
 
 Start Open vSwitch::
 
@@ -169,7 +169,7 @@ Configure Open vSwitch hardware offload::
 This change will persist across reboots. But, in the absence of a reboot, Open
 vSwitch must be restarted:
 
-In RHEL 7.5+ and CentOS 7.5 this is performed by the command::
+In RHEL 7.5+ and CentOS 7.5+ this is performed by the command::
 
     # systemctl restart openvswitch
 

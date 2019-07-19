@@ -204,14 +204,14 @@ symbolic link:
 
     # insert distro-specific initramfs section here...
 
-For RHEL 7.5+ and CentOS 7.5 systems, it is recommended to append the
+For RHEL 7.5+ and CentOS 7.5+ systems, it is recommended to append the
 following snippet:
 
 .. code-block:: bash
     :linenos:
     :lineno-start: 42
 
-    # RHEL 7.5+ and CentOS 7.5 distro-specific initramfs section
+    # RHEL 7.5+ and CentOS 7.5+ distro-specific initramfs section
     DRACUT_CONF=/etc/dracut.conf.d/98-nfp-firmware.conf
     echo "install_items+=\" ${FW} \"" > "${DRACUT_CONF}"
     dracut -f

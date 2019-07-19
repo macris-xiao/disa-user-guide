@@ -7,8 +7,8 @@ Appendix G: Updating Kernel Boot Parameters
     that they may be utilized by VMs, IOMMU must be enabled in both the BIOS
     of the host machines, as well as the kernel.
 
-RHEL 7.5+ and CentOS 7.5 Grub Config
-------------------------------------
+RHEL 7.5+ and CentOS 7.5+ Grub Config
+-------------------------------------
 
 .. code-block:: console
 

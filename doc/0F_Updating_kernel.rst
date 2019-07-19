@@ -9,8 +9,8 @@ RHEL 7.5+
 Only kernel packages released by Red Hat and installable as part of the
 distribution installation and upgrade procedure are supported.
 
-CentOS 7.5
-----------
+CentOS 7.5+
+-----------
 
 The CentOS package installer yum will manage an update to the supported kernel
 version. The command ``yum install kernel-${VERSION}`` updates the kernel for

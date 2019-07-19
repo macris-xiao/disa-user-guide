@@ -29,7 +29,7 @@ Repositories` on how to configure the Netronome repository applicable to your
 distribution. When the repository has been successfully added install the
 *agilio-flower-app-firmware* package using the commands below.
 
-In RHEL 7.5+ and CentOS 7.5::
+In RHEL 7.5+ and CentOS 7.5+::
 
     # yum install agilio-flower-app-firmware
 
@@ -44,7 +44,7 @@ The latest firmware can be obtained at the downloads area of the Netronome
 Support site (https://help.netronome.com). Install the packages provided by
 Netronome Support using the commands below.
 
-In RHEL 7.5+ and CentOS 7.5::
+In RHEL 7.5+ and CentOS 7.5+::
 
     # yum install -y agilio-flower-app-firmware-*.rpm
 
@@ -69,7 +69,7 @@ Once selected the driver should be reloaded to use the new firmware::
 The initramfs image should also be update to ensure the correct firmware
 version is loaded at boot time.
 
-In RHEL 7.5+ and CentOS 7.5 this is done using::
+In RHEL 7.5+ and CentOS 7.5+ this is done using::
 
     # dracut -f
 

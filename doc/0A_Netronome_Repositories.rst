@@ -8,7 +8,7 @@ to the aforementioned repositories from your respective Linux distributions.
 Configuring Repositories
 ------------------------
 
-For RHEL 7.5+ and CentOS 7.5:
+For RHEL 7.5+ and CentOS 7.5+:
 
 .. code-block:: bash
     :linenos:
