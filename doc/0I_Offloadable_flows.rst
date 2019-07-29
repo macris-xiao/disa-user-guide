@@ -70,8 +70,8 @@ Supported tunnel vports:
   and OVS v2.8, RHEL/CentOS 7.6 and Ubuntu 18.10.
 
 - Support for Geneve options has been accepted for inclusion in upstream
-  Linux kernel v4.19 and OVS v2.11. This is included in RHEL8+, support in
-  CentOS and Ubuntu is pending.
+  Linux kernel v4.19 and OVS v2.11. This is included in RHEL 7.7+ and
+  RHEL 8.0+, support in CentOS and Ubuntu is pending.
 
 UDP-based tunnel vports must use the default UDP port for the tunnel type:
 
@@ -96,7 +96,9 @@ offloaded:
 |         | VLAN: ID, Priority             |
 +---------+--------------------------------+
 | Layer 3 | IPv4: Addresses |br|           |
-|         | IPv6: Addresses                |
+|         | IPv4: TTL, TOS  |br|           |
+|         | IPv6: Addresses |br|           |
+|         | IPv6: Hop Limit, priority      |
 +---------+--------------------------------+
 | Layer 4 | TCP: Ports |br|                |
 |         | UDP: Ports                     |
@@ -169,7 +171,7 @@ First create a bond::
 
     # ip link add bond0 type bond
 
-Add the mac-representor ports to the bond::
+Add the physical port representor ports to the bond::
 
     # ip link set dev ens1np0 master bond0
     # ip link set dev ens1np1 master bond0
@@ -348,7 +350,59 @@ two simple flow rules that forwards all traffic between the VF and the bond::
 
 Teams are used with Open vSwitch in exactly the same way as bonds.
 
-.. note::
+Using Linux bonds/teaming with tunnels
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Currently it is not possible to use bonding in conjunction with any of the
-    tunneling protocols.
+Supported versions:
+
++-----------+-------------------------+
+| Kernel    | 5.2.0                   |
++-----------+-------------------------+
+| Firmware  | AOTC-2.10.A.23          |
++-----------+-------------------------+
+| OVS       | 2.11                    |
++-----------+-------------------------+
+| RHEL 7.x  | 7.7                     |
++-----------+-------------------------+
+| RHEL 8.x  | 8.0                     |
++-----------+-------------------------+
+
+It is possible to configure tunnels to work in conjunction with bonds as of
+kernel 5.2. The simplest way to configure this is to make use of two OVS
+bridges. Add the tunnel port the first bridge, the bond port to the second
+bridge and add the tunnel endpoint IP to the second bridge as demonstrated
+next.
+
+Create the first bridge, called br-int in this case, add a VF representor as
+well as the tunnel port to it::
+
+    # ovs-vsctl add-br br-int
+    # ovs-vsctl add-port br-int vxlan1 -- set interface vxlan1 type=vxlan \
+        options:remote_ip=10.0.0.2 options:key=1024
+    # ovs-vsctl add-port br-int vf0_repr
+
+Next add another bridge, called br-ex here and add the bond port to it. Also
+add the endpoint IP to the bridge port and make sure it is up::
+
+    # ovs-vsctl add-br br-ex
+    # ovs-vsctl add-port br-ex bond0
+    # ip addr add dev br-ex 10.0.0.1/24
+    # ip link set dev br-ex up
+
+This would tunnel all traffic going over bond0. If it is required to do
+any packet modifications before encapsulating or after decapsulating the
+packet these rules can be added to br-int. For example to set the
+destination IP before encapsulating::
+
+    # ovs-ofctl add-flow br-int in_port=vf0_repr,ip,actions=set_field:192.168.1.1-\>nw_dst,output:vxlan1
+
+The reverse can also be done, setting the fields of the packet after it
+has been decapsulated, by reversing the input and output ports of the
+above rule::
+
+    # ovs-ofctl add-flow br-int in_port=vxlan1,ip,actions=set_field:192.168.1.1-\>nw_dst,output:vf0_repr
+
+This feature allows for setups where the IP is configured on the bridge port,
+even without using bond. The recommended way to set this up is using the
+two-bridge setup as described above, using a single physical port representor
+instead of a bond.

@@ -13,6 +13,8 @@ datagrams
 datapath
 deallocated
 deallocation
+decapsulated
+decapsulating
 enp
 Ethtool
 fallback
