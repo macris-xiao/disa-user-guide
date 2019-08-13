@@ -13,7 +13,7 @@ Operating System Kernel package version
 ================ ======================
 RHEL/CentOS 7.5  ``3.10.0-862.el7``
 RHEL/CentOS 7.6  ``3.10.0-957.el7``
-RHEL/CentOS 7.7  ``3.10.0-1060.el7``
+RHEL/CentOS 7.7  ``3.10.0-1062.el7``
 RHEL 8.0         ``4.18.0-80.el8``
 Ubuntu 18.04 LTS ``4.15.0-20.21``
 ================ ======================
