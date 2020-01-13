@@ -198,7 +198,7 @@ message buffer::
 This example lists a version of ``020025.020025.020072`` which is sufficient to
 support ``ethtool`` FEC mode configuration. To update your SmartNIC NVRAM
 flash, refer to :ref:`0E_Updating_Flash:Appendix E: Updating NFP Flash` or
-contact `Netronome support <mailto:support@netronome.com>`_.
+contact `Netronome support <mailto:help@netronome.com>`_.
 
 If the SmartNIC NVRAM or the kernel does not support ``ethtool`` modification
 of FEC modes, no supported FEC modes will be listed in the ``ethtool`` output

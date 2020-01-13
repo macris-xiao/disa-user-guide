@@ -231,7 +231,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'AgilioOpenvSwitch.tex', u'Agilio Open vSwitch Documentation',
-     u'support@netronome.com', 'manual'),
+     u'help@netronome.com', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
