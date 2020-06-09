@@ -6,7 +6,8 @@
         - build-sphinx-docs:
             success-url: 'html/'
             vars:
-              doc_building_packages: "sphinx==1.7.8"
+              doc_building_packages:
+                - "sphinx==1.7.8"
               sphinx_source_dir: "doc"
               sphinx_build_dir: "build"
               sphinx_builders:
@@ -19,7 +20,8 @@
         - build-sphinx-docs:
             success-url: 'html/'
             vars:
-              doc_building_packages: "sphinx==1.7.8"
+              doc_building_packages:
+                - "sphinx==1.7.8"
               sphinx_source_dir: "doc"
               sphinx_build_dir: "build"
               sphinx_builders:
@@ -32,7 +34,8 @@
         - build-sphinx-docs:
             success-url: 'singlehtml/'
             vars:
-              doc_building_packages: "sphinx==1.7.8"
+              doc_building_packages:
+                - "sphinx==1.7.8"
               sphinx_source_dir: "doc"
               sphinx_build_dir: "build"
               sphinx_builders:
