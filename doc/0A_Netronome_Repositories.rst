@@ -5,6 +5,27 @@ All the software mentioned in this document can be obtained via the official
 Netronome repositories. Please find instructions below on how to enable access
 to the aforementioned repositories from your respective Linux distributions.
 
+Importing GPG-key
+-----------------
+
+Download and Import GPG-key to your local machine:
+
+For RHEL/Centos 7.5+, download the public key::
+
+    # wget https://rpm.netronome.com/gpg/NetronomePublic.key
+
+Import the public key::
+
+    # rpm --import NetronomePublic.key
+
+For Ubuntu 18.04 LTS, download the public key::
+
+    # wget https://deb.netronome.com/gpg/NetronomePublic.key
+
+Import the public key::
+
+    # apt-key add NetronomePublic.key
+
 Configuring Repositories
 ------------------------
 
