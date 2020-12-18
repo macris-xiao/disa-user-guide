@@ -61,22 +61,8 @@ A flow may be offloaded if:
 
 #. Only the input port or output ports may be a tunnel vport, not both.
 
-Supported tunnel vports:
-
-- VXLAN tunnel vports are supported as of upstream Linux kernel v4.16 and
-  OVS v2.8, RHEL/CentOS 7.5 and Ubuntu 18.04 LTS.
-
-- Geneve tunnel vports are supported as of upstream Linux kernel v4.16
-  and OVS v2.8, RHEL/CentOS 7.6 and Ubuntu 18.10.
-
-- Support for Geneve options has been accepted for inclusion in upstream
-  Linux kernel v4.19 and OVS v2.11. This is included in RHEL 7.7+ and
-  RHEL 8.0+, support in CentOS and Ubuntu is pending.
-
-UDP-based tunnel vports must use the default UDP port for the tunnel type:
-
-- VXLAN: port 4789.
-- Geneve: port 6801.
+For information on supported tunnel vports please see
+:ref:`0K_Overlay_Tunneling:Appendix K: Overlay Tunneling`
 
 Offload of flows that output to more than one port is supported when using
 OVS v2.10+, as found in the Fast Datapath repository for RHEL 7. Otherwise
