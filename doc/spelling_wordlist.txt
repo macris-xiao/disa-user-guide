@@ -37,7 +37,9 @@ Netdev
 Netronome
 offloadable
 Offloadable
+ovs
 OVS
+QinQ
 QoS
 recirculation
 Reconfiguring
@@ -65,7 +67,9 @@ upstreamed
 Upstreamed
 userspace
 Userspace
+vlan
 VM
 vport
 vports
+vsctl
 vSwitch
