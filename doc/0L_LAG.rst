@@ -295,42 +295,17 @@ Minimum supported versions:
 | Ubuntu    | 19.10                   |
 +-----------+-------------------------+
 
-It is possible to configure tunnels to work in conjunction with Linux LAG
-ports as of kernel 5.2. The simplest way to configure this is to make use
-of two OVS bridges. Add the tunnel port the first bridge, the LAG port to
-the second bridge and add the tunnel endpoint IP to the second bridge as
-demonstrated next.
+It is possible to configure tunnels to work in conjunction with Linux LAG ports
+as of kernel 5.2. The simplest way to configure this is to make use of two OVS
+bridges. Add the tunnel port the first bridge, the LAG port to the second
+bridge and add the tunnel endpoint IP to the second bridge. Refer to
+:ref:`0K_Overlay_Tunneling:Method 2: IP-on-the-Bridge` to see how this
+is configured.
 
-Create the first bridge, called br-int in this case, add a VF representor
-as well as the tunnel port to it::
+The only difference is that instead of placing ``phy0`` on ``br-ex`` the
+LAG port is placed on the bridge::
 
-    # ovs-vsctl add-br br-int
-    # ovs-vsctl add-port br-int vxlan1 -- set interface vxlan1 type=vxlan \
-        options:remote_ip=10.0.0.2 options:key=1024
-    # ovs-vsctl add-port br-int vf0_repr
+    $ ovs-vsctl add-br br-ex
+    $ ovs-vsctl add-port br-ex lag0
 
-Next add another bridge, called br-ex here and add the LAG port to it. Also
-add the endpoint IP to the bridge port and make sure it is up::
-
-    # ovs-vsctl add-br br-ex
-    # ovs-vsctl add-port br-ex lag0
-    # ip addr add dev br-ex 10.0.0.1/24
-    # ip link set dev br-ex up
-
-This would tunnel all traffic going over lag0. If it is required to do any
-packet modifications before encapsulating or after decapsulating the packet
-these rules can be added to br-int. For example to set the destination IP
-before encapsulating::
-
-    # ovs-ofctl add-flow br-int in_port=vf0_repr,ip,actions=set_field:192.168.1.1-\>nw_dst,output:vxlan1
-
-The reverse can also be done, setting the fields of the packet after it has
-been decapsulated, by reversing the input and output ports of the above
-rule::
-
-    # ovs-ofctl add-flow br-int in_port=vxlan1,ip,actions=set_field:192.168.1.1-\>nw_dst,output:vf0_repr
-
-This feature allows for use-cases where the IP is configured on the bridge
-port, even without using LAG. The recommended way to set this up is using
-the two-bridge setup as described above, using a single physical port
-representor instead of a LAG port.
+The rest of the config stays the same.

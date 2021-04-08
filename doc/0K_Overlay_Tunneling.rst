@@ -3,6 +3,80 @@
 Appendix K: Overlay Tunneling
 =============================
 
+Introduction
+------------
+
+OVS-TC supports offloading tunnels. The supported tunnel types and the
+corresponding minimum versions of the various components are documented below.
+The OVS documentation can be referred to for more detailed information on how
+OVS works with tunnels, and this section will only provide a short summary
+of the two configurations for which offloading is supported.
+
+Method 1: IP-on-the-Port
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the simplest method, where the tunnel IP is placed on the physical
+port, and the port itself is not placed on the OVS bridge. The OVS bridge
+contains the VF representor ports, as well as a tunnel port. OVS uses Linux
+routing to be able to map the tunnel to the correct physical port, and uses
+this information to generate a datapath rule which is offloaded.
+
+The configuration of a tunnel port will vary slightly for the different port
+types, refer to the specific tunnel sections below - for this section a
+shortened format will be use to explain the concept. The steps to configure
+this are as follows.
+
+Configure the port IP address::
+
+    $ ip addr add dev (phy0) (local_tun_ip/mask)
+    $ ip link set dev (phy0) up
+
+Configure the bridge::
+
+    $ ovs-vsctl add-br br0
+    $ ovs-vsctl add-port br0 vtep -- (vtep specific settings...)
+    $ ovs-vsctl add-br br0 (vf0_repr)
+
+This is all that is required to configure the underlay for successful
+tunneling. A simple test would be to add an IP to the VF netdev (or interface
+in the VM if that is used), and ping a VM/netdev on the remote machine,
+something like this::
+
+    $ ip addr add dev (vf0_netdev) (local_vm_ip/mask)
+    $ ping (remote_vm_ip)
+
+Method 2: IP-on-the-Bridge
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the method that is typically configured by OpenStack, and usually
+involves two bridges. As the name suggests the tunnel IP in this case is placed
+on the bridge port. A common convention is to have the two bridges called
+``br-ex`` and ``br-int``. ``br-ex`` will have the physical port added to it,
+and the IP will be placed on the ``br-ex`` port. ``br-int`` will be configured
+exactly the same as ``br0`` in :ref:`0K_Overlay_Tunneling:Method 1:
+IP-on-the-Port`.
+
+Configure bridge ``br-ex``::
+
+    $ ovs-vsctl add-br br-ex
+    $ ovs-vsctl add-port br-ex (phy0)
+
+    $ ip addr add dev br-ex (local_tun_ip/mask)
+    $ ip link set dev br-ex up
+
+Configure bridge ``br-int``::
+
+    $ ovs-vsctl add-br br-int
+    $ ovs-vsctl add-port br-int vtep -- (vtep specific settings...)
+    $ ovs-vsctl add-br br-int (vf0_repr)
+
+At this point the configuration is done, and can also be verified as explained
+in :ref:`0K_Overlay_Tunneling:Method 1: IP-on-the-Port`.
+
+.. note::
+    For best behavior it is important that `action=NORMAL` is used on ``br-ex``.
+    Any more specific rules are usually applied to ``br-int``.
+
 VXLAN Tunnels
 -------------
 

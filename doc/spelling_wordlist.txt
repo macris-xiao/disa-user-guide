@@ -27,10 +27,12 @@ Geneve
 GPG
 initramfs
 installable
+IP
 IPv
 kilobits
 Metadata
 multithreaded
+netdev
 Netdev
 Netronome
 offloadable
@@ -63,6 +65,7 @@ upstreamed
 Upstreamed
 userspace
 Userspace
+VM
 vport
 vports
 vSwitch
