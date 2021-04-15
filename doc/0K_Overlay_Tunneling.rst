@@ -173,3 +173,29 @@ VXLAN or GENEVE VTEP::
 
 The successfully offloaded flows can be queried in the VF
 representors's TC filter as per the example given for VXLAN.
+
+IPv6 on the underlay
+--------------------
+
+Minimum supported versions:
+
++-----------+-------------------------+
+| Kernel    | 5.10                    |
++-----------+-------------------------+
+| Firmware  | AOTC-2.14.A.6           |
++-----------+-------------------------+
+| OVS       | 2.11                    |
++-----------+-------------------------+
+| RHEL 7    | Not supported           |
++-----------+-------------------------+
+| RHEL 8    | Not released yet        |
++-----------+-------------------------+
+| Ubuntu    | Not released yet        |
++-----------+-------------------------+
+
+All the tunnel types mentioned above supports IPv4 since their first
+introduction. Support for using IPv6 has been added later as indicated in the
+version box above. This is valid for all the supported tunnel types mentioned
+so far in this section. The way to configure this is exactly the same as with
+IPv4, the only difference is that `(local_ip)` and `(remote_ip)` used in the
+example snippets are now allowed to be IPv6.
