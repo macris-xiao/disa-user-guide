@@ -1,14 +1,11 @@
 The Agilio SmartNIC Architecture
 ===================================
 
-.. figure:: ./Conceptual_architecture.png
-   :width: 600
-   :align: center
-   :height: 300
-   :alt: Conceptual Architecture
+.. raw:: html
 
-   The conceptual architecture of the Agilio SmartNIC
-
+    <img src="https://help.netronome.com/helpdesk/attachments/36090652377"
+        style="width: 600px; height: 300px align:center"
+        alt="The conceptual architecture of the Agilio SmartNIC">
 
 The Agilio CX SmartNICs are based on the NFP-4000 and are available in low
 profile PCIe and OCM v2 NIC form factors suitable for use in COTS servers. This
