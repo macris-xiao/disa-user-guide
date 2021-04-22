@@ -3,7 +3,7 @@ The Agilio SmartNIC Architecture
 
 .. raw:: html
 
-    <img src="https://help.netronome.com/helpdesk/attachments/36090652377"
+    <img src="https://help.netronome.com/helpdesk/attachments/36090706907"
         style="width: 600px; height: 300px align:center"
         alt="The conceptual architecture of the Agilio SmartNIC">
 
