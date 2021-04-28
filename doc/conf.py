@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Agilio Open vSwitch'
-copyright = u'2019, Netronome'
+copyright = u'2021, Netronome'
 author = u'Netronome'
 
 # The version info for the project you're documenting, acts as replacement for
